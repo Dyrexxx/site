@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ДОДО ПИЦЦА</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+<a th:href="@{/site/basket}">Корзина</a>
+<div>
+    <div class="menu">
+        <div class="profile">
+            <p>ФИО:</p>
+            <p>Бюджет:</p>
+        </div>
+    </div>
+    <div class="content">
+        <form method="post" th:action="@{/site/choose-select}" th:object="${modelBuilding}">
+            <select th:field="*{id}">
+                <option th:value="0" th:text="'Все заведения'"></option>
+                <option th:each="i : ${restaurantEnum}" th:value="${i.id}" th:text="${i.name()}"></option>
+            </select>
+            <input type="submit" value="Выбрать">
+        </form>
+        <div class="products">
+            <div th:if="${modelBuilding.id==0}">
+                <div th:each="i : ${restaurantEnum}">
+                    <span th:text="${i.getAddress()}"></span>
+                    <h1 th:text="${i.name()}"></h1>
+                    <div th:each="product : ${productsList}">
+                        <img th:src="'http://localhost:8082/'+${product.getUrlImage()}" width="300px" height="300px"/>
+                        <p th:text="${product.name}"/>
+                        <p th:text="${product.description}"/>
+                        <p th:text="${product.price}"/>
+                        <th:block th:each="building : ${product.getBuildingList()}">
+                            <div th:if="${building.id==i.id}">
+                                <div th:if="${building.isPresent()}">
+                                    <form method="post" th:action="@{/site/basket/add}" th:object="${basketItem}">
+                                        <input type="hidden" th:value="${building.id}" name="buildingId">
+                                        <input type="hidden" th:value="${product.name}" name="productName">
+                                        <input type="hidden" th:value="${product.price}" name="price">
+                                        <input type="submit" value="Добавить в корзину">
+                                    </form>
+                                </div>
+                                <div th:unless="${building.isPresent()}">
+                                    <p>ОТСУСТВУЕТ</p>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${modelBuilding.id==0}">
+                <h3 th:text="${restaurantEnum[modelBuilding.getId()-1].getAddress()}"></h3>
+                <div th:each="product : ${productsList}">
+                    <div th:each="building : ${product.getBuildingList()}">
+                        <div th:if="${building.id == modelBuilding.id}">
+                            <div th:if="${building.isPresent()}">
+                                <img th:src="'http://localhost:8082/'+${product.getUrlImage()}" width="300px"
+                                     height="300px"/>
+                                <p th:text="${product.name}"/>
+                                <p th:text="${product.description}"/>
+                                <p th:text="${product.price}"/>
+                                <form method="post" th:action="@{/site/basket/add}" th:object="${basketItem}">
+                                    <input type="hidden" th:value="${building.id}" name="buildingId">
+                                    <input type="hidden" th:value="${product.name}" name="productName">
+                                    <input type="hidden" th:value="${product.price}" name="price">
+                                    <input type="submit" value="Добавить в корзину">
+                                </form>
+                            </div>
+                            <div th:unless="${building.isPresent()}">
+                                <img th:src="'http://localhost:8082/'+${product.getUrlImage()}" width="300px"
+                                     height="300px"/>
+                                <p th:text="${product.name}"/>
+                                <p th:text="${product.description}"/>
+                                <p th:text="${product.price}"/>
+
+                                <p>ОТСУСТВУЕТ. НО МОЖНО ЗАКАЗАТЬ В:</p>
+                                <div th:each="j : ${product.getBuildingList()}">
+
+                                    <div th:if="${j.id!=modelBuilding.id}">
+
+                                        <div th:if="${j.isPresent()}">
+                                            <h3 th:text="${j.name}"></h3>
+                                            <form method="post" th:action="@{/site/basket/add}" th:object="${basketItem}">
+                                                <input type="hidden" th:value="${j.id}" name="buildingId">
+                                                <input type="hidden" th:value="${product.name}" name="productName">
+                                                <input type="hidden" th:value="${product.price}" name="price">
+                                                <input type="submit" value="Добавить в корзину">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ДОДО ПИЦЦА</title>
+</head>
+<body>
+<div>
+    <div th:if="${basket.getBasketViewItemList().size()==0}">
+        <h1>Корзина пуста</h1>
+    </div>
+    <div th:unless="${basket.getBasketViewItemList().size()==0}">
+        <form method="post" th:action="@{/site/basket/pay}" th:object="${basket}">
+            <input type="text" th:field="*{fio}">
+            <input type="text" th:field="*{address}">
+            <div th:each="i : ${basket.getBasketViewItemList()}">
+                <p th:text="'Доставка из: ' + ${i.restaurant.name()} + ' - ' + ${i.restaurant.getAddress()}"></p>
+                <p th:text="'Название: '+${i.getProductName()}"></p>
+                <p th:text="'Количество: ' + ${i.count}"></p>
+                <p th:text="'Цена: ' + ${i.price}"></p>
+            </div>
+            <input type="submit" value="Заказать">
+        </form>
+    </div>
+</div>
+</body>
+</html>
