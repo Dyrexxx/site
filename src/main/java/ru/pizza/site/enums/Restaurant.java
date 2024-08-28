@@ -1,4 +1,4 @@
-package ru.pizza.site.models.enums;
+package ru.pizza.site.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

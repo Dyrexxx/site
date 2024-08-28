@@ -1,4 +1,4 @@
-package ru.pizza.site.models;
+package ru.pizza.site.dto.response.basket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasketItem {
+public class ProductForOrder {
     private int buildingId;
-    private String productName;
+    private String title;
     private int price;
 }

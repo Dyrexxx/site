@@ -6,16 +6,18 @@
 </head>
 <body>
 <div>
-    <div th:if="${basket.getBasketViewItemList().size()==0}">
+    <div th:if="${basket.getProductsList().isEmpty()}">
         <h1>Корзина пуста</h1>
     </div>
-    <div th:unless="${basket.getBasketViewItemList().size()==0}">
+    <div th:unless="${basket.getProductsList().isEmpty()}">
         <form method="post" th:action="@{/site/basket/pay}" th:object="${basket}">
-            <input type="text" th:field="*{fio}">
-            <input type="text" th:field="*{address}">
-            <div th:each="i : ${basket.getBasketViewItemList()}">
+            <label for="fio">ФИО:</label>
+            <input type="text" id="fio" th:field="*{fio}">
+            <label for="address">Адрес:</label>
+            <input type="text" id="address" th:field="*{address}">
+            <div th:each="i : ${basket.getProductsList()}">
                 <p th:text="'Доставка из: ' + ${i.restaurant.name()} + ' - ' + ${i.restaurant.getAddress()}"></p>
-                <p th:text="'Название: '+${i.getProductName()}"></p>
+                <p th:text="'Название: '+${i.getTitle()}"></p>
                 <p th:text="'Количество: ' + ${i.count}"></p>
                 <p th:text="'Цена: ' + ${i.price}"></p>
             </div>

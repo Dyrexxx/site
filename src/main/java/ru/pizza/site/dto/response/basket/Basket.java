@@ -1,10 +1,10 @@
-package ru.pizza.site.models;
+package ru.pizza.site.dto.response.basket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ru.pizza.site.models.enums.Restaurant;
+import ru.pizza.site.enums.Restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +15,15 @@ import java.util.List;
 public class Basket {
     private String fio;
     private String address;
-    private List<BasketViewItem> basketViewItemList = new ArrayList<>();
+    private List<ProductInBasket> productsList = new ArrayList<>();
 
 
-    public static Basket createBasket(Order order) {
+    public static Basket createBasketOrAddProduct(OrderForBasket order) {
         Basket basket = new Basket();
-        for (BasketItem basketItem : order.getProducts()) {
+        for (ProductForOrder basketItem : order.getProductBasketList()) {
             boolean isExists = false;
-            for (BasketViewItem basketViewItem : basket.getBasketViewItemList()) {
-                if (basketViewItem.getProductName().equals(basketItem.getProductName()) &&
+            for (ProductInBasket basketViewItem : basket.getProductsList()) {
+                if (basketViewItem.getTitle().equals(basketItem.getTitle()) &&
                         basketViewItem.getBuildingId() == basketItem.getBuildingId()) {
                     basketViewItem.addCount();
                     isExists = true;
@@ -31,7 +31,7 @@ public class Basket {
                 }
             }
             if (!isExists) {
-                basket.getBasketViewItemList().add(new BasketViewItem(basketItem));
+                basket.getProductsList().add(new ProductInBasket(basketItem));
             }
 
         }
@@ -39,12 +39,12 @@ public class Basket {
     }
 
     @Getter
-    private static class BasketViewItem extends BasketItem {
+    private static class ProductInBasket extends ProductForOrder {
         private int count;
         private final Restaurant restaurant;
 
-        public BasketViewItem(BasketItem basketItem) {
-            super(basketItem.getBuildingId(), basketItem.getProductName(), basketItem.getPrice());
+        public ProductInBasket(ProductForOrder basketItem) {
+            super(basketItem.getBuildingId(), basketItem.getTitle(), basketItem.getPrice());
             count = 1;
             restaurant = findRestaurant(getBuildingId());
         }
@@ -65,10 +65,6 @@ public class Basket {
 
         void addCount() {
             count++;
-        }
-
-        void deductCount() {
-            count--;
         }
     }
 }

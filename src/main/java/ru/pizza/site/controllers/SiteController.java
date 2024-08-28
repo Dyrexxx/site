@@ -1,47 +1,43 @@
 package ru.pizza.site.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.pizza.site.models.BasketItem;
-import ru.pizza.site.models.Building;
-import ru.pizza.site.models.Product;
-import ru.pizza.site.models.enums.Restaurant;
+import ru.pizza.site.dto.request.restaurant.BuildingFromRestaurantMSDTO;
+import ru.pizza.site.dto.response.basket.ProductForOrder;
+import ru.pizza.site.dto.response.buy_menu.ProductForBuyMenuDTO;
+import ru.pizza.site.enums.Restaurant;
 import ru.pizza.site.services.SiteService;
 
 import java.util.List;
 
 @Controller
-@SessionAttributes({"modelBuilding", "productsList"})
+@SessionAttributes({"emptyBuilding", "productsAndExpenditureList"})
+@RequiredArgsConstructor
 @RequestMapping("/site")
 public class SiteController {
     private final SiteService siteService;
-    private Building modelBuilding;
 
-    @Autowired
-    public SiteController(SiteService siteService) {
-        this.siteService = siteService;
-    }
-
-    @ModelAttribute("productsList")
-    public List<Product> productList() {
-        return siteService.getProducts();
+    @ModelAttribute("productsAndExpenditureList")
+    public List<ProductForBuyMenuDTO> productsAndExpenditureListModel() {
+        return siteService.receiveProductsIsProductMS();
     }
 
     @ModelAttribute("basketItem")
-    public BasketItem basketItem() {
-        return new BasketItem();
+    public ProductForOrder basketItem() {
+        return new ProductForOrder();
     }
 
-    @ModelAttribute("modelBuilding")
-    public Building emptyBuilding() {
-        return modelBuilding = new Building();
+    @ModelAttribute("emptyBuilding")
+    public BuildingFromRestaurantMSDTO emptyBuilding() {
+        return new BuildingFromRestaurantMSDTO();
     }
 
     @PostMapping("/choose-select")
-    public String chooseSelect(@ModelAttribute Building buildingId) {
-        modelBuilding.setId(buildingId.getId());
+    public String chooseSelect(@ModelAttribute BuildingFromRestaurantMSDTO buildingId,
+                               @ModelAttribute("emptyBuilding") BuildingFromRestaurantMSDTO emptyBuilding) {
+        emptyBuilding.setId(buildingId.getId());
         return "redirect:/site";
     }
 
