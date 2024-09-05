@@ -12,5 +12,5 @@ public class ProductFromProductsMSDTO extends ProductForBuyMenuDTO {
     private String urlImage;
     private int price;
     private String type;
-    private List<ExpenditureFromProductsMSDTO> expenditureList;
+    private List<ExpenditureFromProductsMSDTO> ingredientEntityList;
 }

@@ -36,8 +36,8 @@ public class BasketController {
     }
 
     @PostMapping("/pay")
-    @ResponseBody
-    public ResponseEntity<Basket> pay(@ModelAttribute("basket") Basket basket) {
-        return restTemplate.postForEntity("http://localhost:8085/dodo/newOrder", basket, Basket.class);
+    public String pay(@ModelAttribute("basket") Basket basket) {
+        restTemplate.postForEntity("http://RESTAURANT/restaurant/api/orders", basket, Basket.class);
+        return "redirect:/site";
     }
 }

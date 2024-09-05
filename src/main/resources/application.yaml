@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: site
+  profiles:
+    active: dev
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+eureka:
+  instance:
+    hostname: localhost
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+eureka:
+  instance:
+    hostname: eureka

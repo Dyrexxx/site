@@ -25,14 +25,15 @@ public class SiteService {
     private final BuildingMapper buildingMapper;
 
     public List<ProductForBuyMenuDTO> receiveProductsIsProductMS() {
-        String url = "http://localhost:8082/products/view";
+        String url = "http://PRODUCTS/products/view";
         List<ProductFromProductsMSDTO> productListFromProductsMSList =
                 List.of(Objects.requireNonNull(restTemplate.getForObject(url, ProductFromProductsMSDTO[].class)));
+        System.out.println(productListFromProductsMSList);
         return fillListBuildingCanBuyAndMappingToForBuyMenu(productListFromProductsMSList, receiveBuildingIsRestaurantMS());
     }
 
     public List<BuildingFromRestaurantMSDTO> receiveBuildingIsRestaurantMS() {
-        String url = "http://localhost:8085/dodo/buildings";
+        String url = "http://RESTAURANT/restaurant/api/buildings";
         return List.of(Objects.requireNonNull(restTemplate.getForObject(url, BuildingFromRestaurantMSDTO[].class)));
     }
 
@@ -63,7 +64,7 @@ public class SiteService {
 
     private static boolean isAdequateAmount(ProductFromProductsMSDTO product, BuildingFromRestaurantMSDTO building) {
         boolean isAdequateAmount = false;
-        for (ExpenditureFromProductsMSDTO expenditure : product.getExpenditureList()) {
+        for (ExpenditureFromProductsMSDTO expenditure : product.getIngredientEntityList()) {
             for (IngredientFromRestaurantMSDTO ingredient : building.getIngredientList()) {
                 if (expenditure.getTitle().equals(ingredient.getTitle())) {
                     if (ingredient.getWeight() > expenditure.getWeight()) {
