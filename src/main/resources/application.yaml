@@ -13,6 +13,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    hostname: localhost
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
@@ -24,15 +25,9 @@ spring:
   config:
     activate:
       on-profile: dev
-eureka:
-  instance:
-    hostname: localhost
 
 ---
 spring:
   config:
     activate:
       on-profile: prod
-eureka:
-  instance:
-    hostname: eureka
