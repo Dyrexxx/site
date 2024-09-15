@@ -3,12 +3,12 @@ package ru.pizza.site.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.pizza.site.dto.request.products.ExpenditureFromProductsMSDTO;
-import ru.pizza.site.dto.request.products.ProductFromProductsMSDTO;
-import ru.pizza.site.dto.request.restaurant.BuildingFromRestaurantMSDTO;
-import ru.pizza.site.dto.request.restaurant.IngredientFromRestaurantMSDTO;
-import ru.pizza.site.dto.response.buy_menu.BuildingForBuyMenuDTO;
-import ru.pizza.site.dto.response.buy_menu.ProductForBuyMenuDTO;
+import ru.pizza.site.domain.dto.request.products.ExpenditureFromProductsMSDTO;
+import ru.pizza.site.domain.dto.request.products.ProductFromProductsMSDTO;
+import ru.pizza.site.domain.dto.request.restaurant.BuildingFromRestaurantMSDTO;
+import ru.pizza.site.domain.dto.request.restaurant.IngredientFromRestaurantMSDTO;
+import ru.pizza.site.domain.dto.response.buy_menu.BuildingForBuyMenuDTO;
+import ru.pizza.site.domain.dto.response.buy_menu.ProductForBuyMenuDTO;
 import ru.pizza.site.mapper.BuildingMapper;
 import ru.pizza.site.mapper.ProductMapper;
 
@@ -28,7 +28,6 @@ public class SiteService {
         String url = "http://PRODUCTS/products/view";
         List<ProductFromProductsMSDTO> productListFromProductsMSList =
                 List.of(Objects.requireNonNull(restTemplate.getForObject(url, ProductFromProductsMSDTO[].class)));
-        System.out.println(productListFromProductsMSList);
         return fillListBuildingCanBuyAndMappingToForBuyMenu(productListFromProductsMSList, receiveBuildingIsRestaurantMS());
     }
 

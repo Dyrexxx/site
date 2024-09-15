@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.pizza.site.dto.request.restaurant.BuildingFromRestaurantMSDTO;
-import ru.pizza.site.dto.response.basket.ProductForOrder;
-import ru.pizza.site.dto.response.buy_menu.ProductForBuyMenuDTO;
-import ru.pizza.site.enums.Restaurant;
+import ru.pizza.site.domain.dto.request.restaurant.BuildingFromRestaurantMSDTO;
+import ru.pizza.site.domain.dto.response.basket.ProductForOrderDTO;
+import ru.pizza.site.domain.dto.response.buy_menu.ProductForBuyMenuDTO;
+import ru.pizza.site.domain.enums.Restaurant;
 import ru.pizza.site.services.SiteService;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class SiteController {
     }
 
     @ModelAttribute("basketItem")
-    public ProductForOrder basketItem() {
-        return new ProductForOrder();
+    public ProductForOrderDTO basketItem() {
+        return new ProductForOrderDTO();
     }
 
     @ModelAttribute("emptyBuilding")

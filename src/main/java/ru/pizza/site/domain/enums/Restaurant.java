@@ -1,4 +1,4 @@
-package ru.pizza.site.enums;
+package ru.pizza.site.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

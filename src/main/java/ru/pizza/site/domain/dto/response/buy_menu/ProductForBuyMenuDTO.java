@@ -1,4 +1,4 @@
-package ru.pizza.site.dto.response.buy_menu;
+package ru.pizza.site.domain.dto.response.buy_menu;
 
 import lombok.Data;
 

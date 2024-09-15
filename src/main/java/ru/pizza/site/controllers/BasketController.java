@@ -1,15 +1,12 @@
 package ru.pizza.site.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ru.pizza.site.dto.response.basket.Basket;
-import ru.pizza.site.dto.response.basket.OrderForBasket;
-import ru.pizza.site.dto.response.basket.ProductForOrder;
+import ru.pizza.site.domain.models.BasketModel;
+import ru.pizza.site.domain.models.OrderForBasketModel;
+import ru.pizza.site.domain.dto.response.basket.ProductForOrderDTO;
 
 @Controller
 @RequestMapping("/site/basket")
@@ -19,8 +16,8 @@ public class BasketController {
     private final RestTemplate restTemplate;
 
     @ModelAttribute("basket")
-    public Basket basket(@ModelAttribute("productOrder") OrderForBasket order) {
-        return Basket.createBasketOrAddProduct(order);
+    public BasketModel basket(@ModelAttribute("productOrder") OrderForBasketModel order) {
+        return BasketModel.createBasketOrAddProduct(order);
     }
 
 
@@ -30,14 +27,14 @@ public class BasketController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("basketItem") ProductForOrder basketItem, @ModelAttribute("productOrder") OrderForBasket order) {
+    public String add(@ModelAttribute("basketItem") ProductForOrderDTO basketItem, @ModelAttribute("productOrder") OrderForBasketModel order) {
         order.addProduct(basketItem);
         return "redirect:/site";
     }
 
     @PostMapping("/pay")
-    public String pay(@ModelAttribute("basket") Basket basket) {
-        restTemplate.postForEntity("http://RESTAURANT/restaurant/api/orders", basket, Basket.class);
+    public String pay(@ModelAttribute("basket") BasketModel basketModel) {
+        restTemplate.postForEntity("http://RESTAURANT/restaurant/api/orders", basketModel, BasketModel.class);
         return "redirect:/site";
     }
 }

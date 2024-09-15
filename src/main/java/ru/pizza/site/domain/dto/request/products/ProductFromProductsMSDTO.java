@@ -1,7 +1,7 @@
-package ru.pizza.site.dto.request.products;
+package ru.pizza.site.domain.dto.request.products;
 
 import lombok.Data;
-import ru.pizza.site.dto.response.buy_menu.ProductForBuyMenuDTO;
+import ru.pizza.site.domain.dto.response.buy_menu.ProductForBuyMenuDTO;
 
 import java.util.List;
 

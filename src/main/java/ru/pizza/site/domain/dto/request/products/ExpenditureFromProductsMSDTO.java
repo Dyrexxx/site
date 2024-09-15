@@ -1,4 +1,4 @@
-package ru.pizza.site.dto.request.products;
+package ru.pizza.site.domain.dto.request.products;
 
 import lombok.Data;
 

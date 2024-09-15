@@ -59,7 +59,7 @@
                                             <p th:text="${product.name}"/>
                                             <p th:text="${product.description}"/>
                                             <p th:text="${product.price}"/>
-                                            <form method="post" th:action="@{/site/basket/add}" th:object="${basketItem}">
+                                            <form method="post" th:action="@{/site/basketModel/add}" th:object="${basketItem}">
                                                 <input type="hidden" th:value="${building.id}" name="buildingId">
                                                 <input type="hidden" th:value="${product.name}" name="productName">
                                                 <input type="hidden" th:value="${product.price}" name="price">
@@ -80,7 +80,7 @@
 
                                                     <div th:if="${j.isPresent()}">
                                                         <h3 th:text="${j.name}"></h3>
-                                                        <form method="post" th:action="@{/site/basket/add}"
+                                                        <form method="post" th:action="@{/site/basketModel/add}"
                                                               th:object="${basketItem}">
                                                             <input type="hidden" th:value="${j.id}" name="buildingId">
                                                             <input type="hidden" th:value="${product.name}" name="productName">
